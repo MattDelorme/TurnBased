@@ -1,10 +1,10 @@
 ﻿
 namespace TurnBased
 {
-    public interface ITurnAction
+    public interface ITurnAction<T> where T : ITurnEntity
     {
-        bool CanTakeAction(ITurnEntity turnEntity);
+        bool CanTakeAction(T turnEntity);
 
-        void TakeAction(ITurnEntity turnEntity);
+        void TakeAction(T turnEntity);
     }
 }
