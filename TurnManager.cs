@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Shared;
 
 namespace TurnBased
 {
@@ -7,9 +8,14 @@ namespace TurnBased
     {
         public event Action<int> OnTurnChanged;
 
-        private readonly List<List<ITurnEntity>> teamsList = new List<List<ITurnEntity>>();
+        private readonly List<List<ITurnEntity>> teamsList;
 
         public int CurrentTeamIndex { get; private set; }
+
+        public TurnManager(List<List<ITurnEntity>> teamsList)
+        {
+            this.teamsList = teamsList;
+        }
 
         public void AddTeam(List<ITurnEntity> team)
         {
@@ -54,7 +60,7 @@ namespace TurnBased
             }
         }
 
-        public void ChangeTurn()
+        public virtual void ChangeTurn()
         {
             teamEndTurn(teamsList[CurrentTeamIndex]);
 
@@ -63,7 +69,7 @@ namespace TurnBased
 
             teamStartTurn(teamsList[CurrentTeamIndex]);
 
-            OnTurnChanged(CurrentTeamIndex);
+            OnTurnChanged.Dispatch(CurrentTeamIndex);
         }
     }
 }
