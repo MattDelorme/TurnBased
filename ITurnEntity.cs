@@ -1,7 +1,8 @@
-﻿
+﻿using Shared;
+
 namespace TurnBased
 {
-    public interface ITurnEntity
+    public interface ITurnEntity : IEntity
     {
         void Begin();
 
@@ -10,4 +11,3 @@ namespace TurnBased
         void EndTurn();
     }
 }
-

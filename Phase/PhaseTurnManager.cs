@@ -26,7 +26,7 @@ namespace TurnBased
             }
 
             this.turnPhases = turnPhases;
-            
+
             currentTurnPhaseIndex = 0;
         }
 
