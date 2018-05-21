@@ -4,16 +4,16 @@ using Shared;
 
 namespace TurnBased
 {
-    public class PhaseTurnManager : TurnManager
+    public class PhaseTurnManager<TEnum> : TurnManager where TEnum : struct, IConvertible, IComparable, IFormattable
     {
-        public event Action<int> TurnPhaseChanged;
+        public event Action<TEnum> TurnPhaseChanged;
 
-        private readonly List<int> turnPhases;
+        private readonly List<TEnum> turnPhases;
         private int currentTurnPhaseIndex;
 
-        public int CurrentTurnPhase {  get { return turnPhases[currentTurnPhaseIndex]; } }
+        public TEnum CurrentTurnPhase {  get { return turnPhases[currentTurnPhaseIndex]; } }
 
-        public PhaseTurnManager(List<int> turnPhases, List<List<ITurnEntity>> teamsList) : base(teamsList)
+        public PhaseTurnManager(List<TEnum> turnPhases, List<List<ITurnEntity>> teamsList) : base(teamsList)
         {
             if (turnPhases == null)
             {
@@ -33,6 +33,7 @@ namespace TurnBased
         public override void ChangeTurn()
         {
             currentTurnPhaseIndex = 0;
+            TurnPhaseChanged.Dispatch(CurrentTurnPhase);
             base.ChangeTurn();
         }
 
@@ -47,8 +48,8 @@ namespace TurnBased
             {
                 throw new InvalidOperationException("No next phase to move to");
             }
-            TurnPhaseChanged.Dispatch(currentTurnPhaseIndex + 1);
             currentTurnPhaseIndex++;
+            TurnPhaseChanged.Dispatch(CurrentTurnPhase);
         }
     }
 }

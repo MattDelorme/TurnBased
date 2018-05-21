@@ -60,6 +60,14 @@ namespace TurnBased
             }
         }
 
+        public void TakeAction<T>(ITurnAction<T> turnAction, T turnEntity) where T : ITurnEntity
+        {
+            if (turnAction.CanTakeAction(turnEntity))
+            {
+                turnAction.TakeAction(turnEntity);
+            }
+        }
+
         public virtual void ChangeTurn()
         {
             teamEndTurn(teamsList[CurrentTeamIndex]);
